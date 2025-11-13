@@ -38,7 +38,7 @@ Antes de começar, garanta que você tenha os seguintes serviços instalados e r
 
 2. NPM (geralmente instalado com o Node.js)
 
-3. Um servidor de banco de dados local ou acessível
+3. Um servidor de banco de dados local ou acessível (exemplo utiliza MySQL)
 
 4. (Opcional, para teste de e-mail) Uma conta no Mailtrap.io (para capturar os e-mails de ativação em um ambiente de teste)
 
