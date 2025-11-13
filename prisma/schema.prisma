@@ -1,0 +1,37 @@
+// Descreve as tabelas do banco de dados (Models) e a conexão (MySQL).
+
+// Define o tipo do seu banco de dados.
+datasource db {
+provider = "mysql" // Alterado de postgresql para mysql
+url      = env("DATABASE_URL") // Pega a URL do banco do arquivo .env
+}
+
+// Define o Prisma como o gerador de código
+generator client {
+provider = "prisma-client-js"
+}
+
+// Modelo do Usuário - Cobre todos os seus requisitos
+model User {
+id        String   @id @default(uuid())
+email     String   @unique // O e-mail deve ser único
+nome      String
+senhaHash String // NUNCA salve a senha pura
+ativo     Boolean  @default(false) // Começa como inativo
+createdAt DateTime @default(now())
+
+// Relacionamento com o token de ativação
+activationToken ActivationToken?
+}
+
+// Modelo para o Token de Ativação (o "link único")
+model ActivationToken {
+id        String   @id @default(uuid())
+token     String   @unique @default(uuid()) // O token em si
+createdAt DateTime @default(now())
+expiresAt DateTime // Data que o token expira (ex: 24h)
+
+// Chave estrangeira para o usuário
+userId String @unique
+user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
