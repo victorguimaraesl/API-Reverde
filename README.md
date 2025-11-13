@@ -2,7 +2,7 @@
 
 Esta é a API de backend para o aplicativo de hábitos sustentáveis ReVerde. Ela é construída com NestJS e gerencia o cadastro de usuários, autenticação e confirmação de e-mails.
 
-##Funcionalidades Principais
+## Funcionalidades Principais
 
 - Autenticação: Sistema completo de Registro e Login com JWT (JSON Web Tokens).
 
@@ -12,7 +12,7 @@ Esta é a API de backend para o aplicativo de hábitos sustentáveis ReVerde. El
 
 - Documentação: Documentação de API interativa gerada automaticamente com Swagger (acesse em /api-docs).
 
-##Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - Framework: NestJS (v10)
 
@@ -30,7 +30,7 @@ Esta é a API de backend para o aplicativo de hábitos sustentáveis ReVerde. El
 
 - Documentação: Swagger (@nestjs/swagger)
 
-##1. Pré-requisitos
+## 1. Pré-requisitos
 
 Antes de começar, garanta que você tenha os seguintes serviços instalados e rodando em sua máquina:
 
@@ -42,11 +42,11 @@ Antes de começar, garanta que você tenha os seguintes serviços instalados e r
 
 4. (Opcional, para teste de e-mail) Uma conta no Mailtrap.io (para capturar os e-mails de ativação em um ambiente de teste)
 
-##2. Guia de Instalação e Execução
+## 2. Guia de Instalação e Execução
 
 Siga esta ordem de comandos para configurar e rodar o projeto do zero.
 
-Passo 1: Clonar e Instalar as Dependências
+### Passo 1: Clonar e Instalar as Dependências
 
 Clone este repositório (ou descompacte o .zip) e instale todos os pacotes necessários.
 ```
@@ -57,7 +57,7 @@ cd reverde-mobile
 npm install
 ```
 
-Passo 2: Configurar as Variáveis de Ambiente (.env)
+### Passo 2: Configurar as Variáveis de Ambiente (.env)
 
 Este projeto precisa de um arquivo .env na raiz para armazenar suas senhas e chaves secretas.
 
@@ -86,7 +86,7 @@ EMAIL_USER="SEU_USUARIO_MAILTRAP"
 EMAIL_PASS="SUA_SENHA_MAILTRAP"
 ```
 
-Passo 3: Criar e "Migrar" o Banco de Dados
+### Passo 3: Criar e "Migrar" o Banco de Dados
 
 Com o .env configurado, o Prisma agora pode se conectar ao seu MySQL e criar as tabelas.
 ```
@@ -94,14 +94,14 @@ Com o .env configurado, o Prisma agora pode se conectar ao seu MySQL e criar as 
 npx prisma migrate dev
 ```
 
-Passo 4: Gerar o Cliente Prisma
+### Passo 4: Gerar o Cliente Prisma
 
 Gere o cliente Prisma (embora o migrate dev geralmente faça isso, é uma boa prática).
 ```
 npx prisma generate
 ```
 
-Passo 5: Rodar a Aplicação
+### Passo 5: Rodar a Aplicação
 
 Se tudo foi feito corretamente, inicie o servidor da API.
 ```
@@ -109,7 +109,7 @@ Se tudo foi feito corretamente, inicie o servidor da API.
 npm run start:dev
 ```
 
-3. Acessando a API
+## 3. Acessando a API
 
 Se o servidor iniciou sem erros:
 
