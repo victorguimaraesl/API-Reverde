@@ -1,0 +1,5 @@
+// Configuração do TypeScript usada para "compilar" o projeto (build), excluindo testes.
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+}

@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL") // Lembre-se de mudar o final da URL no .env para /reverde_mobile
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  nome      String
+  senhaHash String
+  ativo     Boolean  @default(false)
+  ecopontos Int      @default(0)
+  createdAt DateTime @default(now())
+
+  activationToken ActivationToken?
+  
+  // Relações
+  myHabits  UserHabit[]
+  logs      HabitLog[]
+
+  // Mapeia o model 'User' para a tabela 'usuario' no banco
+  @@map("usuario")
+}
+
+model ActivationToken {
+  id        String   @id @default(uuid())
+  token     String   @unique @default(uuid())
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Mapeia para a tabela 'activationtoken'
+  @@map("activationtoken")
+}
+
+// 1. O Hábito Disponível (Catálogo)
+model Habit {
+  id              String @id @default(uuid())
+  titulo          String
+  descricao       String?
+  pontos          Int    @default(10)
+  
+  pergunta        String
+  respostaCorreta String
+  respostaErrada  String
+
+  usersWhoFollow  UserHabit[]
+  logs            HabitLog[]
+
+  @@map("habito")
+}
+
+// 2. Tabela de ligação: Quais usuários seguem quais hábitos
+model UserHabit {
+  id        String @id @default(uuid())
+  userId    String
+  habitId   String
+  createdAt DateTime @default(now())
+
+  user      User   @relation(fields: [userId], references: [id])
+  habit     Habit  @relation(fields: [habitId], references: [id])
+
+  @@unique([userId, habitId])
+ 
+  @@map("habitouser")
+}
+
+// 3. Log de Execução: Para saber se já fez hoje e histórico de pontos
+model HabitLog {
+  id        String   @id @default(uuid())
+  userId    String
+  habitId   String
+  dataHora  DateTime @default(now())
+  pontosGanhos Int
+
+  user      User   @relation(fields: [userId], references: [id])
+  habit     Habit  @relation(fields: [habitId], references: [id])
+
+  @@map("habitolog")
+}
