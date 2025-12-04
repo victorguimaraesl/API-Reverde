@@ -22,7 +22,7 @@ export class EmailService {
 
   async sendActivationEmail(userEmail: string, userName: string, activationLink: string) {
     const mailOptions = {
-      from: '"ReVerde App" <victorguimaraes980@gmail.com>',
+      from: '"ReVerde App" <*@gmail.com>',
       to: userEmail,
       subject: 'Ative sua conta ReVerde!',
       html: `
