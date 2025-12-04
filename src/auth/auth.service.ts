@@ -39,6 +39,7 @@ export class AuthService {
         email,
         senhaHash,
         ativo: false,
+        ecopontos: 0,
         activationToken: {
           create: {
             token: uuidv4(),
@@ -115,6 +116,7 @@ export class AuthService {
         id: user.id,
         nome: user.nome,
         email: user.email,
+        ecopontos: user.ecopontos,
       },
     };
   }

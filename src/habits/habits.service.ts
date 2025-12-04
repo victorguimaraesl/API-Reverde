@@ -43,12 +43,13 @@ export class HabitsService {
           where: {
             userId,
             habitId: uh.habitId,
-            dataHora: { gte: hoje }, 
+            dataHora: { gte: hoje },  
           },
         });
 
         return {
-          ...uh.habit,
+          ...uh.habit,           
+          createdAt: uh.createdAt,
           realizadoHoje: !!logHoje,
         };
       }),
