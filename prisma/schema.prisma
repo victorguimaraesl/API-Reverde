@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  nome      String
+  senhaHash String
+  ativo     Boolean  @default(false)
+  ecopontos Int      @default(0)
+  createdAt DateTime @default(now())
+
+  activationToken ActivationToken?
+  
+  myHabits  UserHabit[]
+  logs      HabitLog[]
+
+  myCertificates UserCertificate[] 
+
+  @@map("usuario")
+}
+
+model ActivationToken {
+  id        String   @id @default(uuid())
+  token     String   @unique @default(uuid())
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("activationtoken")
+}
+
+// 1. Hábito Disponível
+model Habit {
+  id              String @id @default(uuid())
+  titulo          String
+  descricao       String?
+  pontos          Int    @default(10)
+  
+  pergunta        String
+  respostaCorreta String
+  respostaErrada  String
+
+  usersWhoFollow  UserHabit[]
+  logs            HabitLog[]
+
+  @@map("habito")
+}
+
+// 2. Tabela de Ligação
+model UserHabit {
+  id        String @id @default(uuid())
+  userId    String
+  habitId   String
+  createdAt DateTime @default(now())
+
+  user      User   @relation(fields: [userId], references: [id])
+  habit     Habit  @relation(fields: [habitId], references: [id])
+
+  @@unique([userId, habitId])
+  @@map("habitouser")
+}
+
+// 3. Log de Execução
+model HabitLog {
+  id        String   @id @default(uuid())
+  userId    String
+  habitId   String
+  dataHora  DateTime @default(now())
+  pontosGanhos Int
+
+  user      User   @relation(fields: [userId], references: [id])
+  habit     Habit  @relation(fields: [habitId], references: [id])
+
+  @@map("habitolog")
+}
+
+// 4. Catálogo de Certificados
+model Certificate {
+  id        String @id @default(uuid())
+  titulo    String 
+  descricao String
+  custo     Int    
+  imageUrl  String 
+
+  // Relações
+  owners    UserCertificate[]
+
+  @@map("certificado")
+}
+
+// 5. Certificados adquiridos pelo usuário
+model UserCertificate {
+  id            String   @id @default(uuid())
+  userId        String
+  certificateId String
+  purchasedAt   DateTime @default(now()) 
+
+  user        User        @relation(fields: [userId], references: [id])
+  certificate Certificate @relation(fields: [certificateId], references: [id])
+
+  @@map("usuariocertificado")
+}
